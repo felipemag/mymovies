@@ -1,0 +1,80 @@
+
+<ion-header class="ion-no-border" >
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/"></ion-back-button>
+  </ion-buttons>
+  <ion-buttons slot="end">
+    <ion-button (click)="toggleAddToList()">
+      <ion-icon *ngIf="!isAddedToList" slot="icon-only" name="add-circle-outline"></ion-icon>
+      <ion-icon *ngIf="isAddedToList" slot="icon-only" name="add-circle"></ion-icon>
+    </ion-button>
+    <ion-button (click)="toggleCheckmarked()">
+      <ion-icon *ngIf="!isCheckmarked" slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+      <ion-icon *ngIf="isCheckmarked" slot="icon-only" name="checkmark-circle"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+</ion-header>
+<ion-content>
+  <div *ngIf="movie">
+  <img class="movie-header-poster" [src]="'https://image.tmdb.org/t/p/original' + movie.poster_path" (load)="this.loading.dismiss()" (error)="this.loading.dismiss()"> 
+  <div class="ion-margin">
+    <div class="movie-header">
+      <div class="title">{{ movie.title }}</div>
+      <div class="vote"><ion-icon name="star"></ion-icon> {{ movie.vote_average }}</div>
+      <div class="details">
+        <div class="genres"><span *ngFor="let genre of movie.genres; let last = last">{{ genre.name }}<span *ngIf="!last">, </span></span></div>
+        {{movie.runtime}} min / {{ movie.release_date | date:'yyyy' }}
+      </div>
+    </div>
+     <div *ngIf="movie.overview" class="movie-details ion-padding-top">
+      <h3><b>Descrição</b></h3>
+      {{movie.overview}}
+     </div>
+     <div class="ion-padding-top">
+      <h3><b>Elenco principal</b></h3>
+      <div class="scrolling-wrapper">
+       
+       <div class="cast" *ngFor="let credit of (credits)">
+         <div class="profile">
+           <img class="profile" *ngIf="credit.profile_path;else nophoto" [src]="'https://image.tmdb.org/t/p/w200' + credit.profile_path">
+           <ng-template #nophoto><img class="profile" src="https://dummyimage.com/200x300/e6e6e6/000000&text=+Sem+foto"></ng-template>
+         </div>
+         <div class="name">{{ credit.name.length > 20 ? credit.name.substring(0,17)+"..." : credit.name }}</div>
+         <div class="character">{{ credit.character == "" ? "Sem informações" : credit.character.length > 25 ? credit.character.substring(0,22)+"..." : credit.character }}</div>
+       </div>
+     </div>
+    </div>
+
+    <div *ngIf="providers && providers.flatrate" class="ion-padding-top">
+      <h3><b>Onde assistir</b></h3>
+      <div class="scrolling-wrapper">
+       <div class="providers" *ngFor="let flatrate of (providers.flatrate)">
+         <div class="logo">
+           <img class="logo" *ngIf="flatrate.logo_path" [src]="'https://image.tmdb.org/t/p/original' + flatrate.logo_path" [alt]="flatrate.provider_name">
+         </div>
+       </div>
+     </div>
+    </div>
+
+     <div *ngIf="recommendations" class="ion-padding-top">
+     <h3><b>Recomendações</b></h3>
+     <div class="scrolling-wrapper">
+      
+      <div class="related-movie" (click)="onMovieDetail(recommendation.id)" *ngFor="let recommendation of (recommendations)">
+        <div class="poster">
+          <img class="poster" *ngIf="recommendation.poster_path;else nophoto" [src]="'https://image.tmdb.org/t/p/w200' + recommendation.poster_path">
+          <ng-template #nophoto>
+            <img class="poster" src="https://dummyimage.com/200x300/e6e6e6/000000&text=+Sem+foto">
+          </ng-template>
+        </div>
+        <div class="title">{{ recommendation.title.length > 20 ? recommendation.title.substring(0,17)+"..." : recommendation.title }}</div>
+        <div class="year">{{recommendation.release_date | date:'yyyy' }}</div>
+      </div>
+    </div>
+  </div>
+</div> 
+</div>
+</ion-content>

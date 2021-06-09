@@ -1,0 +1,11 @@
+ <div class="movies-flex">
+    <div class="movie" (click)="onMovieDetail(movie.id)" card *ngFor="let movie of (movies | async)">
+      <div class="poster">
+        <img *ngIf="movie.poster_path;else nophoto" class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path">
+        <ng-template #nophoto><img class="poster" src="https://dummyimage.com/200x300/e6e6e6/000000&text=+Sem+foto"></ng-template>
+      </div>
+      <div class="title">{{ movie.title }}</div>
+      <div class="year">{{ movie.release_date | date:'yyyy' }}</div>
+      <div class="vote"><ion-icon name="star"></ion-icon><b>{{ movie.vote_average }}</b>/10</div>
+    </div>
+  </div> 

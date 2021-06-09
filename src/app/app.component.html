@@ -1,0 +1,25 @@
+<ion-app>
+  
+  <ion-menu content-id="page">
+    <ion-content>
+      <ion-list>
+        <ion-toolbar>
+          <ion-menu-toggle class="ion-float-right">
+            <ion-button fill="clear">
+              <ion-icon slot="icon-only" color="dark"  name="close"></ion-icon>
+            </ion-button>
+          </ion-menu-toggle>
+        </ion-toolbar>
+
+        <ion-menu-toggle auto-hide="false">
+
+          <a [routerLink]="['/']" routerLinkActive="router-link-active"><ion-icon name="home-outline"></ion-icon><ion-label>Home</ion-label> </a>
+          <a [routerLink]="['/minha-lista']"><ion-icon name="add"></ion-icon><ion-label>Minha lista</ion-label></a>
+          <a [routerLink]="['/assistidos']"><ion-icon name="checkmark"></ion-icon><ion-label>Assistidos</ion-label></a>
+
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="page"></ion-router-outlet>
+</ion-app>
